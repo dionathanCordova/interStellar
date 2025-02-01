@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  stellar-node:
+    image: stellar/quickstart
+    container_name: stellar-node
+    command: --testnet
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  interstellar-backend:
+    build: .
+    container_name: interstellar-backend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    # Se quiser garantir que suba depois do stellar-node,
+    # e/ou setar variáveis de ambiente:
+    environment:
+      - HORIZON_URL=http://stellar-node:8000
+    depends_on:
+      - stellar-node
