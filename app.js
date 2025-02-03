@@ -46,5 +46,3 @@ app.get('/account/:address', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Explorer backend rodando em http://localhost:${PORT}`);
 });
-
-//
