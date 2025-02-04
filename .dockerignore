@@ -1,0 +1,13 @@
+# Ignorar dependências instaladas
+node_modules/
+client/node_modules/
+
+# Ignorar build do front (caso não precise no backend)
+client/build/
+
+# Ignorar Git e arquivos locais
+.git
+.gitignore
+
+# Ignorar arquivos de ambiente
+.env

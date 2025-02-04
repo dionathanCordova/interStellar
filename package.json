@@ -1,15 +1,16 @@
 {
   "name": "interstellar",
   "version": "1.0.0",
+  "description": "Projeto Interstellar - Explorer na rede Stellar",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "axios": "^1.7.9",
     "express": "^4.21.2"
