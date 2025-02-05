@@ -9,7 +9,7 @@
         }
     },
     "paths": {
-        "/block/:segment": {
+        "/ledgers/:segment": {
             "get": {
                 "tags": [
                     "Ledger"
@@ -204,7 +204,7 @@
                 }
             }
         },
-        "/transaction/:hash": {
+        "/transactions/:hash": {
             "get": {
                 "tags": [
                     "Transaction"
@@ -429,7 +429,7 @@
                 }
             }
         },
-        "/account/:address": {
+        "/accounts/:address": {
             "get": {
                 "tags": [
                     "Account"
