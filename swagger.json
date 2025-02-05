@@ -1,0 +1,736 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "InterStellar Dojo Documentation",
+        "description": "This is an Api to interact with stellar node",
+        "version": "1.0.0",
+        "contact": {
+            "email": "dionathan.cordova@gmail.com"
+        }
+    },
+    "paths": {
+        "/block/:segment": {
+            "get": {
+                "tags": [
+                    "Ledger"
+                ],
+                "summary": "Buscar um bloco (ledger) pelo número",
+                "description": "Buscar um bloco (ledger) pelo número",
+                "parameters": [
+                    {
+                        "name": "segment",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Número do bloco (ledger) a ser buscado"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Block successfully found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "self": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/962496"
+                                                        }
+                                                    }
+                                                },
+                                                "transactions": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/962496/transactions{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "operations": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/962496/operations{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "payments": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/962496/payments{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "effects": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/962496/effects{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "61688a8e-723a-424a-8915-712792b502b5"
+                                        },
+                                        "paging_token": {
+                                            "type": "string",
+                                            "example": "4133888842530816"
+                                        },
+                                        "hash": {
+                                            "type": "string",
+                                            "format": "hex",
+                                            "example": "925e8628495d0872a86308b274494956"
+                                        },
+                                        "prev_hash": {
+                                            "type": "string",
+                                            "format": "hex",
+                                            "example": "925e8628495d0872a86308b274494956"
+                                        },
+                                        "sequence": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "1000"
+                                        },
+                                        "successful_transaction_count": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "100"
+                                        },
+                                        "failed_transaction_count": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "0"
+                                        },
+                                        "operation_count": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "1000"
+                                        },
+                                        "tx_set_operation_count": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "0"
+                                        },
+                                        "closed_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2021-01-01T12:00:00Z"
+                                        },
+                                        "total_coins": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "10000000000000"
+                                        },
+                                        "fee_pool": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "100000000"
+                                        },
+                                        "base_fee_in_stroops": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "100"
+                                        },
+                                        "base_reserve_in_stroops": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "1000000"
+                                        },
+                                        "max_tx_set_size": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "1000"
+                                        },
+                                        "protocol_version": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "11"
+                                        },
+                                        "header_xdr": {
+                                            "type": "string",
+                                            "format": "base64",
+                                            "example": "GAAAAABl6y0r7p_..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Block not found"
+                    },
+                    "500": {
+                        "description": "Internal error occurred"
+                    }
+                }
+            }
+        },
+        "/transaction/:hash": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Buscar uma transação pelo hash",
+                "description": "Buscar uma transação pelo hash",
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Hash da transação"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da transação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "self": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions/{transactionId}"
+                                                        }
+                                                    }
+                                                },
+                                                "account": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/{accountId}"
+                                                        }
+                                                    }
+                                                },
+                                                "ledger": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/ledgers/{ledgerId}"
+                                                        }
+                                                    }
+                                                },
+                                                "operations": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions/{transactionId}/operations{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "effects": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions/{transactionId}/effects{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "precedes": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions?order=asc&cursor={cursor}"
+                                                        }
+                                                    }
+                                                },
+                                                "succeeds": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions?order=desc&cursor={cursor}"
+                                                        }
+                                                    }
+                                                },
+                                                "transaction": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/transactions/{transactionId}"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "f102e1925442b7a740789ea64c33e409a39c30b20d93f8f7918ce9d6cf8dc1ab"
+                                        },
+                                        "paging_token": {
+                                            "type": "string",
+                                            "example": "4133888842534912"
+                                        },
+                                        "successful": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "hash": {
+                                            "type": "string",
+                                            "format": "hex",
+                                            "example": "f102e1925442b7a740789ea64c33e409a39c30b20d93f8f7918ce9d6cf8dc1ab"
+                                        },
+                                        "ledger": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "7168277c57f952538697840458777d29"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-02-04T11:28:23Z"
+                                        },
+                                        "source_account": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                        },
+                                        "source_account_sequence": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "3018503015685212"
+                                        },
+                                        "fee_account": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                        },
+                                        "fee_charged": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "200"
+                                        },
+                                        "max_fee": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "10000000"
+                                        },
+                                        "operation_count": {
+                                            "type": "string",
+                                            "format": "decimal",
+                                            "example": "1"
+                                        },
+                                        "envelope_xdr": {
+                                            "type": "string",
+                                            "format": "base64",
+                                            "example": "AAAAAgAAAACvHdEb2ysDUZgEF5ubGsYG6W90u9ATDlRwGQbnpAS4PgCYloAACrlQAADcXAAAAAAAAAAAAAAAAgAAAAAAAAADAAAAAVpBUloAAAAAKaMyxe12Nlfwwlja4HY4Sr8hN8GEWkqxnxT7sislFmcAAAABVVNEWgAAAACn9Dduu0jw98t"
+                                        },
+                                        "result_xdr": {
+                                            "type": "string",
+                                            "format": "base64",
+                                            "example": "AAAAAgAAAABt16w2Y52a9k89r5g0h8w658m56h24J4aEAAAAAAdwAAAABWkFSWgAAAAApozLF7XY2V/DCWNrgdjhKvyE3wYRaSrGfFPuyKyUWZwAAAAFVU0RaAAAAAKf0N267SPD3y0r"
+                                        },
+                                        "result_meta_xdr": {
+                                            "type": "string",
+                                            "format": "base64",
+                                            "example": "AAAAAgAAAABd9k+9d62eU3b6Q8j8Q76r82+9b6317y4wAAAAAAcwAAAABWkFSWgAAAAApozLF7XY2V/DCWNrgdjhKvyE3wYRaSrGfFPuyKyUWZwAAAAFVU0RaAAAAAKf0N267SPD3y0r"
+                                        },
+                                        "fee_meta_xdr": {
+                                            "type": "string",
+                                            "format": "base64",
+                                            "example": "AAAAAgAAAAMADq+/AAAAAAAAAACvHdEb2ysDUZgEF5ubGsYG6W90u9ATDlRwGQbnpAS4PgAAABdHMkwAAAq5UAAA3FsAAAAGAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAAOr78AAAAAZ6H50gAAAAAAAAABAA6vwAAAAAAAAAAArx3RG9srA1GYBBebmxrGBulvdLvQEw5UcBkG56QEuD4AAAAXRzJLOAAKuVAAANxbAAAABgAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAwAAAAAADq+/AAAAAGeh+dIAAAAA"
+                                        },
+                                        "memo_type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "none",
+                                                "text",
+                                                "id",
+                                                "hash"
+                                            ]
+                                        },
+                                        "signatures": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "format": "base64",
+                                                "example": "MEQCIHANU8F6Y5v899r9o9750n57L2/3p194244w5j9/gAEDq9r8d9w016v99d9r9o9750n57L2/3p194244w5j9/gAEDq9r8d9w"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            "description": "Servidor fatal error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/:address": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Buscar saldo da conta (endereço)",
+                "description": "Buscar saldo da conta (endereço)",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Endereço da conta"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Block successfully found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "self": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                                        }
+                                                    }
+                                                },
+                                                "transactions": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/transactions"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "operations": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/operations"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "payments": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/payments{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "effects": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/effects{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "offers": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/offers{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "trades ": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/trades{?cursor,limit,order}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "href": {
+                                                            "type": "string",
+                                                            "format": "uri",
+                                                            "example": "http://localhost:8000/accounts/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY/data/{key}"
+                                                        },
+                                                        "templated": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "56289220-863a-4a05-8870-33314d8575b2"
+                                        },
+                                        "account_id": {
+                                            "type": "string",
+                                            "format": "uuid",
+                                            "example": "GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                        },
+                                        "sequence": {
+                                            "type": "integer",
+                                            "example": 3018503015696670
+                                        },
+                                        "sequence_ledger": {
+                                            "type": "integer",
+                                            "example": 973956
+                                        },
+                                        "sequence_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-02-05T03:24:33Z"
+                                        },
+                                        "subentry_count": {
+                                            "type": "integer",
+                                            "example": 22
+                                        },
+                                        "last_modified_ledger": {
+                                            "type": "integer",
+                                            "example": 973956
+                                        },
+                                        "last_modified_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-02-05T03:24:33Z"
+                                        },
+                                        "thresholds": {
+                                            "type": "object",
+                                            "properties": {
+                                                "low_threshold": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "med_threshold": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "high_threshold": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            }
+                                        },
+                                        "flags": {
+                                            "type": "object",
+                                            "properties": {
+                                                "auth_required": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "auth_revocable": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "auth_immutable": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "auth_clawback_enabled": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                }
+                                            }
+                                        },
+                                        "balances": {
+                                            "type": "array",
+                                            "description": "Saldos da conta",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "balance": {
+                                                        "type": "string"
+                                                    },
+                                                    "limit": {
+                                                        "type": "string"
+                                                    },
+                                                    "buying_liabilities": {
+                                                        "type": "string"
+                                                    },
+                                                    "selling_liabilities": {
+                                                        "type": "string"
+                                                    },
+                                                    "last_modified_ledger": {
+                                                        "type": "integer"
+                                                    },
+                                                    "is_authorized": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "is_authorized_to_maintain_liabilities": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "asset_type": {
+                                                        "type": "string"
+                                                    },
+                                                    "asset_code": {
+                                                        "type": "string"
+                                                    },
+                                                    "asset_issuer": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "signers": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "weight": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "ed25519_public_key",
+                                                            "pre_auth_tx",
+                                                            "sha256_hash"
+                                                        ],
+                                                        "example": "ed25519_public_key"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "num_sponsoring": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "num_sponsored": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "paging_token": {
+                                            "type": "string",
+                                            "example": "GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Block not found"
+                    },
+                    "500": {
+                        "description": "Internal error occurred"
+                    }
+                }
+            }
+        }
+    }
+}
