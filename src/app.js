@@ -1,5 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:3000', // substitua pelo domínio que deseja liberar
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // métodos HTTP permitidos
+    credentials: true, // se precisar de cookies ou autenticação
+  }));
 
 // Middlewares
 app.use(express.json());
