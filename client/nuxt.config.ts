@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE_URL || 'https://http://137.131.137.170:3000'
+      apiBase: process.env.API_BASE_URL || 'http://137.131.137.170:3000'
     }
   }
 })
