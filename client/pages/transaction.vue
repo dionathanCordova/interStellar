@@ -14,7 +14,7 @@ function onSearch(query: string) {
 }
 </script> -->
 
-<template>
+<!-- <template>
   <div class="container mx-auto p-8">
     <h1 class="text-2xl font-bold text-white mb-6">Search Transaction</h1>
     
@@ -23,7 +23,6 @@ function onSearch(query: string) {
       @search="onSearch"
     />
 
-    <!-- Loading State -->
     <div v-if="pending && !transaction" class="mt-6">
       <Card class="border-gray-700 bg-gray-800/50">
         <CardContent class="pt-6">
@@ -38,7 +37,6 @@ function onSearch(query: string) {
       </Card>
     </div>
 
-    <!-- Error State -->
     <div v-if="error" class="mt-6">
       <Alert variant="destructive">
         <Icon 
@@ -52,7 +50,6 @@ function onSearch(query: string) {
       </Alert>
     </div>
 
-    <!-- Transaction Details -->
     <div v-if="transaction" class="mt-6 space-y-6">
       <Card class="border-gray-700 bg-gray-800/50">
         <CardHeader>
@@ -60,7 +57,7 @@ function onSearch(query: string) {
         </CardHeader>
         <CardContent>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Left Column -->
+            
             <div class="space-y-4">
               <div class="space-y-2">
                 <Label class="text-gray-400">Hash</Label>
@@ -94,7 +91,7 @@ function onSearch(query: string) {
               </div>
             </div>
 
-            <!-- Right Column -->
+            
             <div class="space-y-4">
               <div class="space-y-2">
                 <Label class="text-gray-400">Source Account</Label>
@@ -165,6 +162,90 @@ async function copyToClipboard(text: string) {
     })
   }
 }
+
+async function onSearch(hash: string) {
+  try {
+    error.value = null
+    pending.value = true
+    transaction.value = null
+
+    if (!hash.trim()) {
+      error.value = 'Please enter a transaction hash'
+      return
+    }
+
+    const result = await getTransactionById(hash)
+    
+    if (!result) {
+      error.value = 'Transaction not found or an error occurred'
+      return
+    }
+
+    transaction.value = result
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : 'An unexpected error occurred'
+  } finally {
+    pending.value = false
+  }
+}
+</script> -->
+
+<template>
+  <div class="container mx-auto p-8">
+    <h1 class="text-2xl font-bold text-white mb-6">Search Transaction</h1>
+    
+    <SearchCard 
+      label="Transaction Hash"
+      placeholder="Enter the transaction hash"
+      :pending="pending"
+      @search="onSearch"
+      v-model="internalHash"
+    />
+
+    <!-- Error State -->
+    <div v-if="error" class="mt-6">
+      <Alert variant="destructive">
+        <Icon name="lucide:alert-circle" class="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{{ error }}</AlertDescription>
+      </Alert>
+    </div>
+
+    <!-- Transaction Details -->
+    <div v-if="transaction" class="mt-6">
+      <TransactionDetails :transaction="transaction" />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useTransactionService } from '@/features/transaction/service'
+import type { Transaction } from '@/features/transaction/model'
+
+const { getTransactionById } = useTransactionService()
+
+const transaction = ref<Transaction | null>(null)
+const error = ref<string | null>(null)
+const pending = ref(false)
+
+const internalHash = ref('')
+const passedHash  = computed(() => history.state?.hash || '');
+
+onMounted(() => {
+  if (passedHash.value) {
+    internalHash.value = passedHash.value
+    onSearch(passedHash.value)
+  }
+})
+
+// const internalHash = ref(history.state?.hash || '');
+
+// onMounted(() => {
+//   if (internalHash.value) {
+//     onSearch(internalHash.value)
+//   }
+// })
 
 async function onSearch(hash: string) {
   try {
