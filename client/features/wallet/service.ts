@@ -1,24 +1,30 @@
 import { Account, type AccountDTO, type Balance } from './model'
 
 export const useAccountService = () => {
-  const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase
+  const { public: { apiBase } } = useRuntimeConfig()
 
   /**
    * Fetches an account by its ID
    */
-  const getAccountById = async (accountId: string): Promise<Account | null> => {
-    const { data, error } = await useFetch<AccountDTO>(`/accounts/${accountId}`, {
-      baseURL,
-      key: `account-${accountId}`, // unique key for caching
-    })
-
-    if (error.value) {
-      console.error(`Error fetching account with ID "${accountId}":`, error.value)
-      return null
+  const getAccountById = async (id: string): Promise<Account | null> => {
+    if (!id?.trim()) return null;
+        
+    try {
+      const data = await $fetch<AccountDTO>(`/accounts/${id}`, { 
+        baseURL: apiBase,
+        // Adiciona tratamento de erro melhorado
+        onResponseError: (error) => {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          console.error(`Error fetching wallet with ID "${id}":`, error);
+          throw new Error(`Failed to fetch wallet: ${error.response?._data?.detail || errorMessage}`);
+        }
+      })
+      
+      // Converte o DTO para a instância do modelo (camelCase)
+      return data ? Account.fromDTO(data) : null;
+    } catch (error) {
+      throw error
     }
-
-    return data.value ? Account.fromDTO(data.value) : null
   }
 
   /**

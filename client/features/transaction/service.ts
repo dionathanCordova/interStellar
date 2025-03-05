@@ -1,25 +1,25 @@
 import { Transaction, type TransactionDTO } from './model'
 
 export const useTransactionService = () => {
-  const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase
+  const { public: { apiBase } } = useRuntimeConfig()
 
-  /**
-   * Busca uma transação por ID
-   */
-  const getTransactionById = async (id: string): Promise<Transaction | null> => {
-    const { data, error } = await useFetch<TransactionDTO>(`/transactions/${id}`, {
-      baseURL,
-      key: `transaction-${id}`, // chave única para cache
-    })
+  const getTransactionById = async (id: string): Promise<Transaction | null> =>{
+    if (!id?.trim()) return null;
 
-    if (error.value) {
-      console.error(`Erro ao buscar transação com ID "${id}":`, error.value)
-      return null
+    try {
+      const data = await $fetch<TransactionDTO>(`/transactions/${id}`, {
+        baseURL: apiBase,
+        onResponseError: (error) => {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          console.error(`Error fetching transaction with ID "${id}":`, error);
+          throw new Error(`Failed to fetch transaction: ${error.response?._data?.detail || errorMessage}`);
+        }
+      })
+      return data ? Transaction.fromDTO(data) : null;
+    } catch (error) {
+      throw error
     }
-
-    return data.value ? Transaction.fromDTO(data.value) : null
-  }
+    }
 
   /**
    * Busca todas as transações com paginação
@@ -32,7 +32,7 @@ export const useTransactionService = () => {
       items: TransactionDTO[], 
       total: number 
     }>('/transactions', {
-      baseURL,
+      baseURL: apiBase,
       params: { page, limit },
       key: `transactions-${page}-${limit}`,
     })
@@ -53,7 +53,7 @@ export const useTransactionService = () => {
    */
   const getTransactionsByAccount = async (accountId: string): Promise<Transaction[]> => {
     const { data, error } = await useFetch<TransactionDTO[]>(`/accounts/${accountId}/transactions`, {
-      baseURL,
+      baseURL: apiBase,
       key: `account-transactions-${accountId}`,
     })
 
@@ -70,7 +70,7 @@ export const useTransactionService = () => {
    */
   const createTransaction = async (transaction: Partial<TransactionDTO>): Promise<Transaction | null> => {
     const { data, error } = await useFetch<TransactionDTO>('/transactions', {
-      baseURL,
+      baseURL: apiBase,
       method: 'POST',
       body: transaction,
     })
@@ -88,7 +88,7 @@ export const useTransactionService = () => {
    */
   const updateTransactionStatus = async (id: string, successful: boolean): Promise<Transaction | null> => {
     const { data, error } = await useFetch<TransactionDTO>(`/transactions/${id}`, {
-      baseURL,
+      baseURL: apiBase,
       method: 'PATCH',
       body: { successful },
     })
