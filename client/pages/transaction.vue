@@ -192,7 +192,7 @@ async function onSearch(hash: string) {
 
 <template>
   <div class="container mx-auto p-8">
-    <h1 class="text-2xl font-bold text-white mb-6">Search Transaction</h1>
+    <!-- <h1 class="text-2xl font-bold text-white mb-6">Search Transaction</h1> -->
     
     <SearchCard 
       label="Transaction Hash"
@@ -219,7 +219,7 @@ async function onSearch(hash: string) {
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useTransactionService } from '@/features/transaction/service'
 import type { Transaction } from '@/features/transaction/model'
 
@@ -228,48 +228,56 @@ const { getTransactionById } = useTransactionService()
 const transaction = ref<Transaction | null>(null)
 const error = ref<string | null>(null)
 const pending = ref(false)
-
+const route = useRoute()
+const router = useRouter()
 const internalHash = ref('')
-const passedHash  = computed(() => history.state?.hash || '');
 
-onMounted(() => {
-  if (passedHash.value) {
-    internalHash.value = passedHash.value
-    onSearch(passedHash.value)
+async function fetchTransaction(query:string): Promise<void> {
+  if (!query.trim()) {
+    error.value = 'Please enter a transaction hash'
+    transaction.value = null
+    return
   }
-})
 
-// const internalHash = ref(history.state?.hash || '');
-
-// onMounted(() => {
-//   if (internalHash.value) {
-//     onSearch(internalHash.value)
-//   }
-// })
-
-async function onSearch(hash: string) {
   try {
-    error.value = null
     pending.value = true
+    error.value = null
     transaction.value = null
 
-    if (!hash.trim()) {
-      error.value = 'Please enter a transaction hash'
-      return
-    }
-
-    const result = await getTransactionById(hash)
+    const result = await getTransactionById(query)
     
     if (!result) {
       error.value = 'Transaction not found or an error occurred'
       return
     }
-
+    
     transaction.value = result
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'An unexpected error occurred'
   } finally {
     pending.value = false
   }
+}
+
+// Observa mudanças na query da rota
+watch(() => route.query.hash, async (newTransactionQuery) => {
+  if (newTransactionQuery) {
+    internalHash.value = newTransactionQuery as string
+    await fetchTransaction(newTransactionQuery as string)
+  } else {
+    // Limpa os dados quando não há query
+    transaction.value = null
+    error.value = null
+  }
+}, { immediate: true })
+
+onMounted(() => {  
+  if (route.query.hash) {
+    internalHash.value = route.query.hash as string
+  }
+})
+
+async function onSearch(hash: string) {
+  await router.replace({ query: { hash: hash } })
 }
 </script>
